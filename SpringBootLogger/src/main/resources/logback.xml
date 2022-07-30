@@ -1,0 +1,72 @@
+<configuration>
+	 <appender name = "Console" 
+	     class = "ch.qos.logback.core.ConsoleAppender">
+	      <encoder>
+	         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} : %msg%n</pattern>
+	      </encoder>
+	</appender>
+	
+	<!-- this is for file-->
+	
+	<appender name="RfAppender" 
+	          class="ch.qos.logback.core.rolling.RollingFileAppender">
+	     <file>c:\Tools\logs\app.log</file>
+	    <encoder>
+	         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+	     </encoder>
+	     
+	     <!-- Rolling Pollicy-->
+	     
+	  <rollingPolicy 
+	      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>
+	            c:\Tools\logs\archived\app.log.%d{yyyy-MM-dd}.%i.log
+	       </fileNamePattern>
+	       <timeBasedFileNamingAndTriggeringPolicy 
+	           class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	        <maxFileSize>10MB</maxFileSize>
+	        </timeBasedFileNamingAndTriggeringPolicy>
+	        <maxHistory>3</maxHistory>
+	    </rollingPolicy>
+	 </appender>
+	 
+	 
+	 <!--WARNING -->
+	 
+	 
+	 <appender name="WarnRfAppender" 
+	          class="ch.qos.logback.core.rolling.RollingFileAppender">
+	     <file>c:\Tools\logs\WARN.log</file>
+	     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	     <level>WARN</level>
+	     </filter>
+	    <encoder>
+	         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+	     </encoder>
+	     
+	     <!-- Rolling Pollicy-->
+	     
+	  <rollingPolicy 
+	      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>
+	            c:\Tools\logs\archived\WARN.log.%d{yyyy-MM-dd}.%i.log
+	       </fileNamePattern>
+	       <timeBasedFileNamingAndTriggeringPolicy 
+	           class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	        <maxFileSize>10MB</maxFileSize>
+	        </timeBasedFileNamingAndTriggeringPolicy>
+	        <maxHistory>3</maxHistory>
+	    </rollingPolicy>
+	 </appender>
+	
+	   <logger name="springboot.logger.demo" level="debug" additivity="false">
+	      <appender-ref ref = "RfAppender"/>
+	      <appender-ref ref = "Console"/>
+	      <appender-ref ref = "WarnRfAppender"/>
+	   </logger>
+	   
+	   <root level = "DEBUG">
+	      <appender-ref ref = "Console"/>
+	      <appender-ref ref = "WarnRfAppender"/>
+	   </root>
+</configuration>
